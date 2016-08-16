@@ -2,6 +2,8 @@
   <div id="wrapper">
     <header-mc v-on:show-course-list="showCourseList"></header-mc>
     <course-content></course-content>
+    <code-editor v-on:code-area-loaded="renderCodeMirror"></code-editor>
+    <results-browser></results-browser>
     <middle-bg v-show="middleBgDisplay" @click="closeMiddleBg"></middle-bg>
     <course-list v-show="courseListDisplay"></course-list>
     
@@ -13,6 +15,8 @@ import HeaderMc from './components/Header'
 import CourseList from './components/CourseList'
 import MiddleBg from './components/MiddleBg'
 import CourseContent from './components/CourseContent'
+import CodeEditor from './components/CodeEditor'
+import ResultsBrowser from './components/ResultsBrowser'
 
 export default {
   name: 'App',
@@ -24,6 +28,9 @@ export default {
     }
   },
   methods: {
+    renderCodeMirror () {
+      console.log('code-editor created:' + CodeEditor)
+    },
     showCourseList () {
       console.log('showCourseList in App.vue triggered')
       this.middleBgDisplay = true
@@ -48,7 +55,9 @@ export default {
     HeaderMc,
     CourseList,
     MiddleBg,
-    CourseContent
+    CourseContent,
+    CodeEditor,
+    ResultsBrowser
   }
 }
 

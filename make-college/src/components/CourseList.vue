@@ -12,5 +12,6 @@
 		width: 40%;
 		height: 100vh;
 		background: white;
+		z-index: 5;
 	}
 </style>

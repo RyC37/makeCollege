@@ -1,0 +1,31 @@
+h1 {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+	font-size: 24px;
+	/*text-align: center;*/
+}
+h2 {font-size: 22px;}
+h3 {font-size: 20px;}
+h4 {font-size: 18px;}
+h5 {font-size: 16px;}
+
+code {
+	background: rgba(102,204,175,0.1);
+	color: #50AF94;
+	border-radius: 3px;
+	padding: 2px 3px;
+	font-size: 16px;
+}
+
+pre {
+	border: 1px solid #50AF94;
+	border-radius: 3px;
+	padding: 5px 10px;
+	background: #50AF94;
+}
+
+pre code {
+	background: none;
+	color: #fff;
+	display: inline-block;
+}

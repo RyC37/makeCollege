@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Make College Markdown Editor</title>
+	<script type="text/javascript" src="./js/showdown.min.js"></script>
+	<script type="text/javascript" src="./js/jquery-3.1.0.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/mc-markdown.css">
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin-top: 0;
+		}
+		#markdown-editor {
+			position: absolute;
+			top: 12px;
+			left: 12px;
+			width: calc(50% - 18px);
+			height: calc(100vh - 24px);
+			background: #fefefe;
+			resize: none;
+			border-radius: 3px;
+			border: 1px solid #eeeeee;
+			box-sizing: border-box;
+			padding: 12px;
+		}
+		#markdown-editor:focus { 
+		    outline: none !important;
+		    border-color: #EE3E66;
+		    /*box-shadow: 0 0 10px #719ECE;*/
+		}
+		#preview {
+			position: absolute;
+			top: 12px;
+			left: calc(50% + 6px);
+			width: calc(50% - 18px);
+			height: calc(100vh - 24px);
+			border-radius: 3px;
+			box-sizing: border-box;
+			padding: 12px;
+			/*background: red;*/
+		}
+	</style>
+
+</head>
+<body>
+	<textarea id="markdown-editor"></textarea>
+	<div id="preview"></div>
+	<script type="text/javascript">
+		var converter = new showdown.Converter()
+		var text = ''
+		$.get('./lessons/sample.txt', function(data){
+			text = data
+		}) 
+		// var text = $('#markdown-editor').load('./lessons/sample.txt')
+		var html = converter.makeHtml(text)
+		$('#preview').html(html)
+		// console.log(html);
+		$('#markdown-editor').keyup(function(){
+			text = $('#markdown-editor').val()
+			html = converter.makeHtml(text)
+			$('#preview').html(html)
+		})
+	</script>
+</body>
+</html>
+
