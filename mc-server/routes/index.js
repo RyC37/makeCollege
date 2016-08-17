@@ -19,4 +19,8 @@ router.post('/save-file', function(req, res, next) {
 	})
 })
 
+router.get('/course', function(req, res, next) {
+	res.send('This is course content')
+})
+
 module.exports = router

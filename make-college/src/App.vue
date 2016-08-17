@@ -64,6 +64,11 @@ export default {
           console.log(this.$refs.editor.layout.codeSmall)
           this.$refs.editor.layout.codeSmall = false
           window.mcCodeEditor.setOption('mode', 'javascript')
+          this.$http.get('http://localhost:3000/course').then((response) => {
+            console.log(response.body)
+          }, (response) => {
+            console.error(response)
+          })
         }
         if (mode === 'web') {
           console.log('Switch to web mode')
