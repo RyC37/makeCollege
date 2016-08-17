@@ -2,10 +2,10 @@
   <div id="wrapper">
     <header-mc v-on:show-course-list="showCourseList"></header-mc>
     <course-content></course-content>
-    <code-editor v-on:code-area-loaded="renderCodeMirror"></code-editor>
-    <results-browser></results-browser>
+    <code-editor v-on:code-area-loaded="renderCodeMirror" v-ref:editor></code-editor>
+    <results-browser v-show="resultsBrowserDisplay"></results-browser>
     <middle-bg v-show="middleBgDisplay" @click="closeMiddleBg"></middle-bg>
-    <course-list v-show="courseListDisplay"></course-list>
+    <course-list v-show="courseListDisplay" v-on:switch-mode="switchMode"></course-list>
     
   </div>
 </template>
@@ -24,7 +24,9 @@ export default {
   data () {
     return {
       courseListDisplay: false,
-      middleBgDisplay: false
+      middleBgDisplay: false,
+      resultsBrowserDisplay: true,
+      layoutMode: 'web'
     }
   },
   methods: {
@@ -49,6 +51,31 @@ export default {
       if (this.courseListDisplay && this.middleBgDisplay) {
         this.toggleCourseList()
       }
+    },
+    switchMode (mode) {
+      // 'mode' is passed by CourseList.vue
+      // 'js' refers to 2-column layout
+      // 'web' refers to 3-column layout
+      // console.log(mode)
+      if (mode !== this.layoutMode) {
+        if (mode === 'js') {
+          console.log('Switch to js mode')
+          this.resultsBrowserDisplay = false
+          console.log(this.$refs.editor.layout.codeSmall)
+          this.$refs.editor.layout.codeSmall = false
+          window.mcCodeEditor.setOption('mode', 'javascript')
+        }
+        if (mode === 'web') {
+          console.log('Switch to web mode')
+          this.resultsBrowserDisplay = true
+          this.$refs.editor.layout.codeSmall = true
+          window.mcCodeEditor.setOption('mode', this.$refs.editor.codeMirrorMode.mixedMode)
+        }
+        this.layoutMode = mode
+      } else {
+        console.log('Do nothing about layout since it did not change')
+      }
+      this.closeMiddleBg()
     }
   },
   components: {

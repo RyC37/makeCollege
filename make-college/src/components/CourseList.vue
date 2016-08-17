@@ -1,7 +1,20 @@
 <template>
-	<div id="course-list"></div>
+	<div id="course-list">
+		<button @click="switchModeNotify('js')">Enable JS Mode</button>
+		<button @click="switchModeNotify('web')">Enable Web Mode</button>
+	</div>
 </template>
+<script>
+export default {
+  name: 'CourseList',
 
+  methods: {
+    switchModeNotify (mode) {
+      this.$dispatch('switch-mode', mode)
+    }
+  }
+}
+</script>
 
 <style type="text/css">
 	#course-list{

@@ -1,5 +1,5 @@
 <template>
-	<div id="code-editor">
+	<div id="code-editor" :class="{ 'code-editor-small': layout.codeSmall, 'code-editor-medium': !layout.codeSmall }">
     <div id="textarea-wrapper" @click="focusEditor">
       <textarea id="code-area" v-el:code-area></textarea>
     </div>
@@ -27,6 +27,18 @@ export default {
           TEST_FUNC: "if(a === 5){TEST_RESULT = {state:true}}else{TEST_RESULT = {state:false ,error:'Variable a should be 5'}} ",
           TEST_RESULT: null
         }
+      },
+      layout: {
+        codeSmall: true  // 'true' for 3-coulum layout, 'false' for 2-column layout
+      },
+      codeMirrorMode: {
+        mixedMode : {
+          name: "htmlmixed",
+          scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
+                       mode: null},
+                      {matches: /(text|application)\/(x-)?vb(a|script)/i,
+                       mode: "vbscript"}]
+        }
       }
     }
   },
@@ -42,9 +54,12 @@ export default {
         eval(code + '\n' + test)
         console.log("2")
       }
-      
-      evalResult(mcCode, mcTestFunc)
-      console.log(TEST_RESULT)
+      try {
+        evalResult(mcCode, mcTestFunc)
+      } catch (err) {
+        console.log('Error in eval:' + err) //here we can get error in cosole
+      }
+      console.log('Test result: ' + TEST_RESULT)
     },
     resetCode () {
       console.log('Reset-button clicked')
@@ -56,11 +71,15 @@ export default {
   },
   ready () {
     console.log('ready!!!!!!' + this.$els.codeArea)
+    var initialMode = this.codeMirrorMode.mixedMode
     window.mcCodeEditor = window.CodeMirror.fromTextArea(this.$els.codeArea, {
+      mode: initialMode,
+      selectionPointer: true,
       viewportMargin: Infinity,
       lineWrapping: true,
       lineNumbers: true
     })
+    console.log('initialMode: ' + initialMode.name)
     window.mcCodeEditor.setValue(this.defaultCode)
   }
 }
@@ -72,13 +91,19 @@ export default {
 		position: relative;
 		top: 0px;
 		left: 20px;
-		width: calc(35% - 16px);
+		/*width: calc(35% - 16px);*/
 		height: calc(100vh - 76px);
 		min-height: 524px;
 		border-radius: 3px;
 		overflow: scroll;
 		/*padding: 15px 35px;*/
 	}
+  .code-editor-small {
+    width: calc(35% - 16px);
+  }
+  .code-editor-medium {
+    width: calc(65% - 20px);
+  }
   #textarea-wrapper {
     display: inline-block;
     position: absolute;
